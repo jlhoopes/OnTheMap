@@ -20,6 +20,16 @@ import UIKit
         emailTextField.delegate = TextFieldDelegate.sharedInstance
         passwordTextField.delegate = TextFieldDelegate.sharedInstance
     }
+        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+        
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
