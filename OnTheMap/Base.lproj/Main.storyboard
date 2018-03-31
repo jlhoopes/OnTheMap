@@ -61,6 +61,9 @@
                                         <state key="normal" title="Login">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="performLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Omh-5W-8f6"/>
+                                        </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9uT-ff-7uG">
                                         <rect key="frame" x="74" y="212.5" width="187.5" height="27"/>
@@ -77,12 +80,15 @@
                                                 <state key="normal" title="Sign Up">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="performSignup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rsu-Md-kCc"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="MaW-vq-JK0" userLabel="Loading Indicator">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="MaW-vq-JK0" userLabel="Activity Indicator">
                                 <rect key="frame" x="177" y="323.5" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
@@ -98,6 +104,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="MaW-vq-JK0" id="CRx-zU-uBx"/>
                         <outlet property="emailTextField" destination="nWf-D6-s2z" id="KZb-GK-lPR"/>
                         <outlet property="loginStackView" destination="DxL-qi-LS6" id="zbE-cg-0OU"/>
                         <outlet property="passwordTextField" destination="g9w-RU-7Wt" id="XEH-6V-hPV"/>
@@ -105,7 +112,74 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="204" y="106"/>
+            <point key="canvasLocation" x="-966" y="90"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="TYu-vg-nhi">
+            <objects>
+                <viewController id="n3Y-cP-6XP" userLabel="Map" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jJf-lL-FqI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="N1h-H5-Oiq"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 2" id="ptQ-J1-hwT"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gHg-E2-LIs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1430" y="153"/>
+        </scene>
+        <!--List-->
+        <scene sceneID="6Lm-ah-bUP">
+            <objects>
+                <viewController id="OQ1-dQ-pCL" userLabel="List" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7aS-Q8-GgV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="DAr-UB-41b"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 1" id="VPC-0E-jDm"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ixW-e8-2Wa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1430" y="-512"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="0Lg-rd-ouE">
+            <objects>
+                <tabBarController id="drO-EZ-fyA" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="kti-HL-QHW"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="km2-aq-VKV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="OQ1-dQ-pCL" kind="relationship" relationship="viewControllers" id="sHX-fc-PMj"/>
+                        <segue destination="n3Y-cP-6XP" kind="relationship" relationship="viewControllers" id="MOv-gh-ZdD"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oxY-Cr-8CN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="594" y="-187"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jD2-iY-F80">
+            <objects>
+                <navigationController storyboardIdentifier="PrimaryNavigationController" id="15M-SR-bka" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="a4j-g4-nyl">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="drO-EZ-fyA" kind="relationship" relationship="rootViewController" id="Pgq-z9-04W"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kCA-YJ-Is3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-126" y="-179"/>
         </scene>
     </scenes>
     <resources>

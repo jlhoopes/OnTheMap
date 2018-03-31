@@ -24,6 +24,13 @@
 		745B765F206DBA8800960FC6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 745B7657206DBA8800960FC6 /* FBSDKLoginKit.framework */; };
 		745B7660206DBA8800960FC6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 745B7657206DBA8800960FC6 /* FBSDKLoginKit.framework */; };
 		74EAF3F1206EFAE800F575E5 /* TextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF3F0206EFAE800F575E5 /* TextFieldDelegate.swift */; };
+		74EAF3F5206F060E00F575E5 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF3F4206F060E00F575E5 /* UdacityClient.swift */; };
+		74EAF3F7206F064900F575E5 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF3F6206F064900F575E5 /* UdacityConstants.swift */; };
+		74EAF3F9206F08F200F575E5 /* OTMBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF3F8206F08F200F575E5 /* OTMBlackBox.swift */; };
+		74EAF3FC206F0E9A00F575E5 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF3FB206F0E9A00F575E5 /* ParseClient.swift */; };
+		74EAF3FE206F0EC000F575E5 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF3FD206F0EC000F575E5 /* ParseConstants.swift */; };
+		74EAF401206F0F2A00F575E5 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF400206F0F2A00F575E5 /* StudentInformation.swift */; };
+		74EAF403206F0F6300F575E5 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF402206F0F6300F575E5 /* SharedData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +68,13 @@
 		745B7656206DBA8800960FC6 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		745B7657206DBA8800960FC6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		74EAF3F0206EFAE800F575E5 /* TextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDelegate.swift; sourceTree = "<group>"; };
+		74EAF3F4206F060E00F575E5 /* UdacityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
+		74EAF3F6206F064900F575E5 /* UdacityConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
+		74EAF3F8206F08F200F575E5 /* OTMBlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTMBlackBox.swift; sourceTree = "<group>"; };
+		74EAF3FB206F0E9A00F575E5 /* ParseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
+		74EAF3FD206F0EC000F575E5 /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
+		74EAF400206F0F2A00F575E5 /* StudentInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
+		74EAF402206F0F6300F575E5 /* SharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +134,8 @@
 		745B7625206DB91500960FC6 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				74EAF3FF206F0F0700F575E5 /* DataModel */,
+				74EAF3F2206F05C800F575E5 /* Clients */,
 				74EAF3EF206EFA9700F575E5 /* Tools */,
 				745B7661206DBAB000960FC6 /* ViewController */,
 				745B7654206DBA1500960FC6 /* Frameworks */,
@@ -172,8 +188,45 @@
 			isa = PBXGroup;
 			children = (
 				74EAF3F0206EFAE800F575E5 /* TextFieldDelegate.swift */,
+				74EAF3F8206F08F200F575E5 /* OTMBlackBox.swift */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		74EAF3F2206F05C800F575E5 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				74EAF3FA206F0E7300F575E5 /* ParseClient */,
+				74EAF3F3206F05DA00F575E5 /* UdacityClient */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		74EAF3F3206F05DA00F575E5 /* UdacityClient */ = {
+			isa = PBXGroup;
+			children = (
+				74EAF3F4206F060E00F575E5 /* UdacityClient.swift */,
+				74EAF3F6206F064900F575E5 /* UdacityConstants.swift */,
+			);
+			path = UdacityClient;
+			sourceTree = "<group>";
+		};
+		74EAF3FA206F0E7300F575E5 /* ParseClient */ = {
+			isa = PBXGroup;
+			children = (
+				74EAF3FB206F0E9A00F575E5 /* ParseClient.swift */,
+				74EAF3FD206F0EC000F575E5 /* ParseConstants.swift */,
+			);
+			path = ParseClient;
+			sourceTree = "<group>";
+		};
+		74EAF3FF206F0F0700F575E5 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				74EAF400206F0F2A00F575E5 /* StudentInformation.swift */,
+				74EAF402206F0F6300F575E5 /* SharedData.swift */,
+			);
+			path = DataModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,9 +363,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74EAF3F5206F060E00F575E5 /* UdacityClient.swift in Sources */,
+				74EAF3F7206F064900F575E5 /* UdacityConstants.swift in Sources */,
+				74EAF3FC206F0E9A00F575E5 /* ParseClient.swift in Sources */,
 				745B7629206DB91500960FC6 /* LoginViewController.swift in Sources */,
 				745B7627206DB91500960FC6 /* AppDelegate.swift in Sources */,
+				74EAF3F9206F08F200F575E5 /* OTMBlackBox.swift in Sources */,
+				74EAF401206F0F2A00F575E5 /* StudentInformation.swift in Sources */,
 				74EAF3F1206EFAE800F575E5 /* TextFieldDelegate.swift in Sources */,
+				74EAF403206F0F6300F575E5 /* SharedData.swift in Sources */,
+				74EAF3FE206F0EC000F575E5 /* ParseConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
