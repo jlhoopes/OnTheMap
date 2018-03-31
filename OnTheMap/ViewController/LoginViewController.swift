@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
     class LoginViewController: UIViewController {
         @IBOutlet weak var loginStackView: UIStackView!
@@ -17,6 +19,14 @@ import UIKit
         override func viewDidLoad() {
             super.viewDidLoad()
             // Do any additional setup after loading the view, typically from a nib.
+            // FB Login check issue logout
+            let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
+            fbLoginManager.logOut()
+            
+            
+            let fbLoginButton = FBSDKLoginButton()
+            
+            loginStackView.addArrangedSubview(fbLoginButton)
             
             emailTextField.delegate = TextFieldDelegate.sharedInstance
             passwordTextField.delegate = TextFieldDelegate.sharedInstance
@@ -76,7 +86,23 @@ import UIKit
                 }
             })
         }
-        // Mark complete login
+        // MARK Facebook Login
+        func performFBLogin(_ fbToken: String) {
+            UdacityClient.sharedInstance().performFacebookLogin(fbToken, completionHandlerFBLogin: { (error) in
+                
+                if (error == nil) {
+                    // Get User Info
+                    self.getCurrentUserInfo()
+                    // Complete Login
+                    self.completeLogin()
+                }
+                else {
+                    self.performAlert("Invalid Login, please try again.")
+                }
+            })
+        }
+
+        // MARK complete login
         private func completeLogin() {
             performUIUpdatesOnMain {
                 self.activityIndicator.startAnimating()
@@ -86,8 +112,8 @@ import UIKit
         }
         // MARK Signup functions
         @IBAction func performSignup(_ sender: Any) {
-            let app = UIApplication.shared
-            app.open(URL(string: "https://auth.udacity.com/sign-up?next=https%3A%2F%2Fclassroom.udacity.com%2Fauthenticated")!, options: [:])
+            let signup = UIApplication.shared
+            signup.open(URL(string: "https://auth.udacity.com/sign-up?next=https%3A%2F%2Fclassroom.udacity.com%2Fauthenticated")!, options: [:])
         }
         
         // MARK Keyboard routines
