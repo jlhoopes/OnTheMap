@@ -12,11 +12,9 @@ extension ParseClient {
     
     // MARK: Constants
     struct Constants {
-        // MARK: API Key and Application ID
+        // MARK: API Key/Application ID/URLs
         static let ApiKey = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
         static let ApplicationID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
-        
-        // MARK: URLs
         static let ApiScheme = "https"
         static let ApiHost = "parse.udacity.com"
         static let ApiPath = "/parse/classes"
@@ -24,36 +22,29 @@ extension ParseClient {
     
     // MARK: Methods
     struct Methods {
-        // MARK: StudentLocation
         static let StudentLocation = "/StudentLocation"
     }
     
     
-    // MARK: Parameter Keys for GET Multiple Student Location
+    // MARK: Parameter Keys for getting multiple students locations
     struct MultipleStudentParameterKeys {
-        
-        // Multiple Student Locations
         static let Limit = "limit"
         static let Skip = "skip"
         static let Order = "order"
     }
     
-    // MARK: Parameter Keys for GET One Student Location
+    // MARK: Parameter Keys for getting single student location
     struct OneStudentParameterKeys {
-        
-        // One Student Location
         static let Where = "where"
     }
     
-    // MARK: Parameter Keys for PUT Student Location
+    // MARK: Parameter Keys for putting student location
     struct OneStudentPutParameterKeys {
-        
         static let ObjectID = "objectId"
     }
     
     // MARK: JSON Body Keys
     struct StudentJSONBodyKeys {
-        
         static let UniqueKey = "uniqueKey"
         static let FirstName = "firstName"
         static let LastName = "lastName"

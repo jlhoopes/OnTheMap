@@ -10,8 +10,8 @@ import Foundation
 class SharedData{
     
     static let sharedInstance = SharedData()
-    var studentInformations: [StudentInformation] = []
-    var currentUser: StudentInformation?
+    var studentsInfo: [StudentInfo] = []
+    var currentUser: StudentInfo?
     
     private init() {}
 }

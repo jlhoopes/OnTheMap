@@ -12,7 +12,7 @@ import MapKit
 class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,90 +20,81 @@ class MapViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getStudentInformation("-updatedAt")
+        getStudentInfo("-updatedAt")
     }
     
-    func getStudentInformation(_ updateAtString: String) {
+    func getStudentInfo(_ updateAtString: String) {
         
-        loadingIndicator.startAnimating()
+        activityIndicator.startAnimating()
         
         let parameters = [
-            ParseClient.MultipleStudentParameterKeys.Limit: "100",
+            ParseClient.MultipleStudentParameterKeys.Limit: "50",
             ParseClient.MultipleStudentParameterKeys.Order: updateAtString
         ]
         
-        ParseClient.sharedInstance().getStudentInformations(parameters: parameters as [String : AnyObject], completionHandlerLocations: { (studentInformation, error) in
-            if let studentInformation = studentInformation{
-                self.updateUIMapAnnotation(location: studentInformation)
+        ParseClient.sharedInstance().getStudentsInfo(parameters: parameters as [String : AnyObject], completionHandlerLocations: { (studentInfo, error) in
+            if let studentInfo = studentInfo{
+                self.updateUIMapAnnotation(location: studentInfo)
             } else {
                 self.performAlert("There was an error retrieving student data")
             }
         })
     }
     
-    // The "locations" array is an array of dictionary objects that are similar to the JSON
-    // data that you can download from parse.
-    private func updateUIMapAnnotation(location: [StudentInformation]) {
+    // The location array is populated with JSON results from student dictionaries
+    private func updateUIMapAnnotation(location: [StudentInfo]) {
         
         // clean up annotations first
         performUIUpdatesOnMain {
             self.mapView.removeAnnotations(self.mapView.annotations)
         }
         
-        // We will create an MKPointAnnotation for each dictionary in "locations". The
-        // point annotations will be stored in this array, and then provided to the map view.
+        // Create MKPointAnnotation array container for annotations
         var annotations = [MKPointAnnotation]()
         
         
-        // The "locations" array is loaded with the sample data below. We are using the dictionaries
-        // to create map annotations. This would be more stylish if the dictionaries were being
-        // used to create custom structs. Perhaps StudentLocation structs.
+        // Populate annotations with results in the dictionary returns
         
         for dictionary in location {
-            
-            // Notice that the float values are being used to create CLLocationDegree values.
-            // This is a version of the Double type.
-            
-            
+            // Process student names, locations, and URL
             let lat = CLLocationDegrees(dictionary.Latitude as Double)
             let long = CLLocationDegrees(dictionary.Longitude as Double)
-            
-            // The lat and long are used to create a CLLocationCoordinates2D instance.
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            
             let first = dictionary.FirstName as String
             let last = dictionary.LastName as String
             let mediaURL = dictionary.MediaURL as String
             
-            // Here we create the annotation and set its coordiate, title, and subtitle properties
+            // Create each annotation using student data
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             annotation.title = "\(first) \(last)"
             annotation.subtitle = mediaURL
             
-            // Finally we place the annotation in an array of annotations.
-            
-            // just add to annotations when it has title and subtitle
+            // Add non blank annotations
             if (annotation.title != "" && annotation.subtitle != "") {
                 annotations.append(annotation)
             }
         }
         
         performUIUpdatesOnMain {
-            // When the array is complete, we add the annotations to the map.
+            // Append map annotations
             self.mapView.addAnnotations(annotations)
         }
     }
     
     func performAlert(_ message: String) {
         performUIUpdatesOnMain {
-            let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            let alert = UIAlertController(title: nil, message: message, preferredStyle: UIAlertControllerStyle.alert),
+                okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+            
+            alert.addAction(okAction)
+            
             self.present(alert, animated: true, completion: nil)
         }
     }
 }
 
+//MARK Map view extensions
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let reuseId = "pin"
@@ -121,9 +112,7 @@ extension MapViewController: MKMapViewDelegate {
         return pinView
     }
     
-    
-    // This delegate method is implemented to respond to taps. It opens the system browser
-    // to the URL specified in the annotationViews subtitle property.
+    // Method for url pass to safari
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.shared
@@ -141,7 +130,7 @@ extension MapViewController: MKMapViewDelegate {
     func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         if (fullyRendered) {
             performUIUpdatesOnMain {
-                self.loadingIndicator.stopAnimating()
+                self.activityIndicator.stopAnimating()
             }
         }
     }

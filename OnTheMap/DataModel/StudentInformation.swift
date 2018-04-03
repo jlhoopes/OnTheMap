@@ -1,12 +1,12 @@
 //
-//  StudentInformation.swift
+//  StudentInfo.swift
 //  OnTheMap
 //
 //  Created by Jason Hoopes on 3/30/18.
 //  Copyright © 2018 Jason Hoopes. All rights reserved.
 //
 
-struct StudentInformation {
+struct StudentInfo {
     
     // MARK: Properties
     
@@ -24,7 +24,7 @@ struct StudentInformation {
     
     // MARK: Initializers
     
-    // construct a TMDBMovie from a dictionary
+    // construct a StudentInfo block from a dictionary
     init?(dictionary: [String:AnyObject]) {
         
         if let createdAt = dictionary[ParseClient.GetStudentJSONResponseKeys.CreatedAt] as? String {
@@ -94,18 +94,18 @@ struct StudentInformation {
         }
     }
     
-    // Convert from array of strings to StudentLoation object
-    static func StudentInformationsFromResults(_ results: [[String:AnyObject]]) -> [StudentInformation] {
+    // Convert from array of strings to StudentsInfo object
+    static func StudentsInfoFromResults(_ results: [[String:AnyObject]]) -> [StudentInfo] {
         
-        var studentInformations = [StudentInformation]()
+        var studentsInfo = [StudentInfo]()
         
-        // iterate through array of dictionaries, each Movie is a dictionary
+        // iterate through array of dictionaries, each student is a dictionary
         for result in results {
-            if let studentInformation = StudentInformation(dictionary: result) {
-                studentInformations.append(studentInformation)
+            if let studentInfo = StudentInfo(dictionary: result) {
+                studentsInfo.append(studentInfo)
             }
         }
         
-        return studentInformations
+        return studentsInfo
     }
 }

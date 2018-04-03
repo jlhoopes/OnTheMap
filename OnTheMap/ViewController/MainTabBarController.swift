@@ -25,18 +25,18 @@ class MainTabBarController: UITabBarController {
     @IBAction func performRefresh(_ sender: Any) {
         if (selectedIndex == 0) {
             let vc = selectedViewController as! MapViewController
-            vc.getStudentInformation("updatedAt")
+            vc.getStudentInfo("updatedAt")
         }
         else {
             let vc = selectedViewController as! TableViewController
-            vc.getStudentInformations()
+            vc.getStudentsInfo()
         }
     }
     
     @IBAction func performAddStudent(_ sender: Any) {
         
-        let studentInformations = ParseClient.sharedInstance().studentInformations!
-        addStudentInformation(studentInformations)
+        let studentsInfo = ParseClient.sharedInstance().studentsInfo!
+        addStudentInfo(studentsInfo)
     }
     
     private func updateUIAfterLogout(error: NSError?) {
@@ -49,14 +49,14 @@ class MainTabBarController: UITabBarController {
         }
     }
     
-    private func addStudentInformation(_ studentInformation: [StudentInformation]) {
+    private func addStudentInfo(_ studentInfo: [StudentInfo]) {
         var isExist: Bool = false
         let currentUserUniqueKey = UdacityClient.sharedInstance().AccountKey
-        var currentStudent: StudentInformation?
+        var currentStudent: StudentInfo?
         
-        for studentInformation in studentInformation {
-            if (studentInformation.UniqueKey == currentUserUniqueKey) {
-                currentStudent = studentInformation
+        for studentInfo in studentInfo {
+            if (studentInfo.UniqueKey == currentUserUniqueKey) {
+                currentStudent = studentInfo
                 isExist = true
                 break
             }
@@ -64,25 +64,28 @@ class MainTabBarController: UITabBarController {
         
         if (isExist) {
             // create the alert
-            let alert = UIAlertController(title: "Warning", message: "User \(currentStudent!.FirstName) \(currentStudent!.LastName) has already posted a student location. Would you like to overwrite their location?", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: nil, message: "User \(currentStudent!.FirstName) \(currentStudent!.LastName) Has Already Posted a Student Location. Would You Like to Overwrite Their Location?", preferredStyle: UIAlertControllerStyle.alert)
             
             // add the actions (buttons)
-            alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: {_ in
-                self.presentUpdateStudentInfoView()
-            }))
+            let overWriteAction = UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: {_ in
+                self.presentAddStudentInfoView()
+                })
             
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil)
+            alert.view.tintColor = UIColor(rgb: 0x00ABE1)
             
+            alert.addAction(overWriteAction)
+            alert.addAction(cancelAction)
             // show the alert
             self.present(alert, animated: true, completion: nil)
         }
         else {
-            presentUpdateStudentInfoView()
+            presentAddStudentInfoView()
         }
     }
     
-    private func presentUpdateStudentInfoView() {
-        let updateLocationVC = self.storyboard!.instantiateViewController(withIdentifier: "UpdateNavigationController")
+    private func presentAddStudentInfoView() {
+        let updateLocationVC = self.storyboard!.instantiateViewController(withIdentifier: "AddNavigationController")
         self.present(updateLocationVC, animated: true, completion: nil)
     }
     

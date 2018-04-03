@@ -9,19 +9,16 @@
 import UIKit
 
 class UdacityClient {
-    // shared session
     var session = URLSession.shared
     var AccountKey : String?
     var SessionID : String?
     
-    // MARK: Shared Instance
     class func sharedInstance() -> UdacityClient {
         struct Singleton {
             static var sharedInstance = UdacityClient()
         }
         return Singleton.sharedInstance
     }
-    // Udacity Login
     func performUdacityLogin(_ email: String,
                              _ password: String,
                              completionHandlerLogin: @escaping (_ error: NSError?)
@@ -32,31 +29,24 @@ class UdacityClient {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = "{\"udacity\": {\"username\": \"\(email)\", \"password\": \"\(password)\"}}".data(using: String.Encoding.utf8)
         let _ = performRequest(request: request) { (parsedResult, error) in
-            /* Send the values to completion handler */
             if let error = error {
                 completionHandlerLogin(error)
             } else {
-                /* GUARD: Look for account key in result */
                 guard let accountDictionary = parsedResult?[UdacityClient.UdacityAccountKeys.Account] as? [String:AnyObject] else {
                     return
                 }
-                /* GUARD: Look for registered key in result */
                 guard let registered = accountDictionary[UdacityClient.UdacityAccountKeys.Registered] as? Bool else {
                     return
                 }
-                /* GUARD: Look for account key in result */
                 guard let accountKey = accountDictionary[UdacityClient.UdacityAccountKeys.Key] as? String else {
                     return
                 }
-                /* GUARD: Look for session key in result */
                 guard let sessionDictionary = parsedResult?[UdacityClient.SessionKeys.Session] as? [String:AnyObject] else {
                     return
                 }
-                /* GUARD: Look for session id key in result */
                 guard let sessionID = sessionDictionary[UdacityClient.SessionKeys.ID] as? String else {
                     return
                 }
-                // determine if account is registered. if failed notify user
                 if registered {
                     self.AccountKey = accountKey
                     self.SessionID = sessionID
@@ -70,7 +60,6 @@ class UdacityClient {
             }
         }
     }
-    // Udacity Logout
     func performUdacityLogout(completionHandlerLogout: @escaping (_ error: NSError?) -> Void) {
         let request = NSMutableURLRequest(url: URL(string: Constants.AuthorizationURL)!)
         request.httpMethod = "DELETE"
@@ -83,19 +72,15 @@ class UdacityClient {
             request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
         }
         let _ = performRequest(request: request) { (parsedResult, error) in
-            /* Send the desired value(s) to completion handler */
             if let error = error {
                 completionHandlerLogout(error)
             } else {
-                /* GUARD: Look for session key in result */
                 guard let sessionDictionary = parsedResult?[UdacityClient.SessionKeys.Session] as? [String:AnyObject] else {
                     return
                 }
-                /* GUARD: look for session key in result? */
                 guard let logoutSessionID = sessionDictionary[UdacityClient.SessionKeys.ID] as? String else {
                     return
                 }
-                // Do session ID's Match?
                 if (logoutSessionID == self.SessionID!) {
                     completionHandlerLogout(nil)
                 }
@@ -108,7 +93,7 @@ class UdacityClient {
             }
         }
     }
-    // Udacity Login
+    // Facebook Login
     func performFacebookLogin(_ fbAccessToken: String,
                               completionHandlerFBLogin: @escaping (_ error: NSError?)
         -> Void) {
@@ -118,38 +103,30 @@ class UdacityClient {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = "{\"facebook_mobile\": {\"access_token\": \"\(fbAccessToken)\"}}".data(using: String.Encoding.utf8)
         let _ = performRequest(request: request) { (parsedResult, error) in
-            /* Send the value to completion handler */
             if let error = error {
                 completionHandlerFBLogin(error)
             } else {
-                /* GUARD: Look for account key in result */
                 guard let accountDictionary = parsedResult?[UdacityClient.UdacityAccountKeys.Account] as? [String:AnyObject] else {
                     return
                 }
-                /* GUARD: Look for registered key in result */
                 guard let registered = accountDictionary[UdacityClient.UdacityAccountKeys.Registered] as? Bool else {
                     return
                 }
-                /* GUARD: Look for accunt key in result */
                 guard let accountKey = accountDictionary[UdacityClient.UdacityAccountKeys.Key] as? String else {
                     return
                 }
-                /* GUARD: Look for session key in result */
                 guard let sessionDictionary = parsedResult?[UdacityClient.SessionKeys.Session] as? [String:AnyObject] else {
                     return
                 }
-                /* GUARD: look for session id key in result */
                 guard let sessionID = sessionDictionary[UdacityClient.SessionKeys.ID] as? String else {
                     return
                 }
-                // determine if account is registered. if failed notify user
                 if registered {
                     self.AccountKey = accountKey
                     self.SessionID = sessionID
                     completionHandlerFBLogin(nil)
                 }
                 else {
-                    // Account is not registered
                     let errorMsg = "Account not registered"
                     let userInfo = [NSLocalizedDescriptionKey : errorMsg]
                     completionHandlerFBLogin(NSError(domain: errorMsg, code: 2, userInfo: userInfo))
@@ -166,37 +143,36 @@ class UdacityClient {
                     let userInfo = [NSLocalizedDescriptionKey : error]
                     completionHandlerRequest(nil, NSError(domain: "performRequest", code: 1, userInfo: userInfo))
                 }
-                /* GUARD: Look for error */
+                
                 guard (error == nil) else {
                     sendError("Request failed. Please check your connection.")
                     return
                 }
-                /* GUARD: Did we get a successful response? */
+                
                 guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
                     let httpError = (response as? HTTPURLResponse)?.statusCode
                     if httpError == 403 {
-                        sendError("Invalid login and password")
+                        sendError("Invalid Email or Password")
                     }
                     else {
                         sendError("Your request returned status code : \(String(describing: httpError))")
                     }
                     return
                 }
-                /* GUARD: Was there any data returned? */
+                
                 guard let data = data else {
-                    sendError("Request returned empty!")
+                    sendError("Request Returned Empty")
                     return
                 }
                 let range = Range(5..<data.count)
                 let newData = data.subdata(in: range)
-                print(NSString(data: newData, encoding: String.Encoding.utf8.rawValue)!)
                 
                 self.convertDataWithCompletionHandler(newData, completionHandlerConvertData: completionHandlerRequest)
             }
             task.resume()
             return task
     }
-    // given raw JSON, return a usable Foundation object
+    
     private func convertDataWithCompletionHandler(_ data: Data, completionHandlerConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
         var parsedResult: AnyObject! = nil
         do {

@@ -13,10 +13,10 @@ class ParseClient {
     
     var session = URLSession.shared
     
-    var studentInfo : StudentInformation?
-    var studentInformations: [StudentInformation]?
+    var studentInfo : StudentInfo?
+    var studentsInfo: [StudentInfo]?
     
-    // MARK: Shared Instance
+    // MARK: Shared Instance Singleton
     
     class func sharedInstance() -> ParseClient {
         struct Singleton {
@@ -25,90 +25,73 @@ class ParseClient {
         return Singleton.sharedInstance
     }
     
-    
-    // GET Student Locations
-    func getStudentInformations(parameters: [String: AnyObject], completionHandlerLocations: @escaping (_ result: [StudentInformation]?, _ error: NSError?)
+    // GET student groupings
+    func getStudentsInfo(parameters: [String: AnyObject], completionHandlerLocations: @escaping (_ result: [StudentInfo]?, _ error: NSError?)
         -> Void) {
         
-        /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         let request = NSMutableURLRequest(url: parseURLFromParameters(parameters, withPathExtension: Methods.StudentLocation))
         
         request.addValue(Constants.ApplicationID, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(Constants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         
-        /* 2. Make the request */
         let _ = performRequest(request: request) { (parsedResult, error) in
             
-            /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 completionHandlerLocations(nil, error)
             } else {
                 
                 if let results = parsedResult?[GetStudentJSONResponseKeys.StudentResult] as? [[String:AnyObject]] {
                     
-                    self.studentInformations = StudentInformation.StudentInformationsFromResults(results)
+                    self.studentsInfo = StudentInfo.StudentsInfoFromResults(results)
                     
-                    SharedData.sharedInstance.studentInformations = self.studentInformations!
-                    completionHandlerLocations(self.studentInformations, nil)
+                    SharedData.sharedInstance.studentsInfo = self.studentsInfo!
+                    completionHandlerLocations(self.studentsInfo, nil)
                 } else {
-                    completionHandlerLocations(nil, NSError(domain: "getStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
+                    completionHandlerLocations(nil, NSError(domain: "parse getStudentLocations", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
                 }
             }
         }
     }
     
-    // GET 1 Student Location
-    func getStudentInformation(completionHandlerLocation: @escaping (_ result: StudentInformation?, _ error: NSError?)
+    // GET a single student
+    func getStudentInfo(completionHandlerLocation: @escaping (_ result: StudentInfo?, _ error: NSError?)
         -> Void) {
         
         // Get Current User / Student Info
         let accountKey = UdacityClient.sharedInstance().AccountKey
-        
         let uniqueKeyStr = "{\"uniqueKey\":\"" + accountKey! + "\"}"
         let customAllowedSet =  CharacterSet(charactersIn:":=\"#%/<>?@\\^`{|}").inverted
         let accountKeyEscapedString = uniqueKeyStr.addingPercentEncoding(withAllowedCharacters: customAllowedSet)
         let parameters = [OneStudentParameterKeys.Where: accountKeyEscapedString as AnyObject]
-        
-        /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
-        //let request = NSMutableURLRequest(url: parseURLFromParameters(parameters, withPathExtension: Methods.StudentLocation))
-        // TODO : Let's do manual parameters for now since it will re-convert escape string
         let uniqueKey = parameters[OneStudentParameterKeys.Where] as? String
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?where=" + uniqueKey!)!)
-        //print(request.url!.absoluteString)
         
         request.addValue(Constants.ApplicationID, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(Constants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         
-        /* 2. Make the request */
         let _ = performRequest(request: request) { (parsedResult, error) in
-            
-            /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 completionHandlerLocation(nil, error)
             } else {
                 
                 if let results = parsedResult?[GetStudentJSONResponseKeys.StudentResult] as? [[String:AnyObject]] {
                     
-                    let studentInformations = StudentInformation.StudentInformationsFromResults(results)
+                    let studentsInfo = StudentInfo.StudentsInfoFromResults(results)
                     
-                    // Get the first student info.. We care only about unique key anyway
-                    if (studentInformations.count > 0) {
-                        self.studentInfo = studentInformations[0]
+                    if (studentsInfo.count > 0) {
+                        self.studentInfo = studentsInfo[0]
                         SharedData.sharedInstance.currentUser = self.studentInfo!
                         completionHandlerLocation(self.studentInfo, nil)
                     }
-                    else {
-                        // Do nothing if student location is not there yet. Anyway we can always create by performing "POST" student location
-                    }
                 } else {
-                    completionHandlerLocation(nil, NSError(domain: "getStudentInformation parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
+                    completionHandlerLocation(nil, NSError(domain: "parse getStudentInfo", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getStudentLocations"]))
                 }
             }
         }
     }
     
-    // Post Student Location
-    func postStudentInformation(studentInformation: StudentInformation, completionHandlerPostLocation: @escaping (_ error: NSError?) -> Void) {
+    // MARK: Post Student Location
+    func postStudentInfo(studentInfo: StudentInfo, completionHandlerPostLocation: @escaping (_ error: NSError?) -> Void) {
         
         let request = NSMutableURLRequest(url: parseURLFromParameters(nil, withPathExtension: Methods.StudentLocation))
         
@@ -118,28 +101,23 @@ class ParseClient {
         request.addValue(Constants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        request.httpBody = "{\"uniqueKey\": \"\(studentInformation.UniqueKey)\", \"firstName\": \"\(studentInformation.FirstName)\", \"lastName\": \"\(studentInformation.LastName)\",\"mapString\": \"\(studentInformation.MapString)\", \"mediaURL\": \"\(studentInformation.MediaURL)\",\"latitude\": \(studentInformation.Latitude), \"longitude\": \(studentInformation.Longitude)}".data(using: String.Encoding.utf8)
+        request.httpBody = "{\"uniqueKey\": \"\(studentInfo.UniqueKey)\", \"firstName\": \"\(studentInfo.FirstName)\", \"lastName\": \"\(studentInfo.LastName)\",\"mapString\": \"\(studentInfo.MapString)\", \"mediaURL\": \"\(studentInfo.MediaURL)\",\"latitude\": \(studentInfo.Latitude), \"longitude\": \(studentInfo.Longitude)}".data(using: String.Encoding.utf8)
         
-        
-        /* 2. Make the request */
         let _ = performRequest(request: request) { (parsedResult, error) in
-            
-            /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 completionHandlerPostLocation(error)
             } else {
                 
-                /* GUARD: Is the "created at" key in our result? */
+                // GUARD: is the createdAt key present?
                 guard let createdAt = parsedResult?[GetStudentJSONResponseKeys.CreatedAt] as? String else {
                     completionHandlerPostLocation(NSError(domain: "postStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse POST Student Location"]))
                     return
                 }
-                
+                // GUARD: is the objectID key present?
                 guard let objectID = parsedResult?[GetStudentJSONResponseKeys.ObjectID] as? String else {
                     completionHandlerPostLocation(NSError(domain: "postStudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse POST Student Location"]))
                     return
                 }
-                
                 if (objectID != "" && createdAt != "") {
                     completionHandlerPostLocation(nil)
                 } else {
@@ -149,10 +127,10 @@ class ParseClient {
         }
     }
     
-    // Put Student Location
-    func putStudentInformation(studentInformation: StudentInformation, completionHandlerPutLocation: @escaping (_ error: NSError?) -> Void) {
+    // MARK: Put Student Location
+    func putStudentInfo(studentInfo: StudentInfo, completionHandlerPutLocation: @escaping (_ error: NSError?) -> Void) {
         
-        let request = NSMutableURLRequest(url: parseURLFromParameters(nil, withPathExtension: Methods.StudentLocation + "/\(studentInformation.ObjectID)"))
+        let request = NSMutableURLRequest(url: parseURLFromParameters(nil, withPathExtension: Methods.StudentLocation + "/\(studentInfo.ObjectID)"))
         
         request.httpMethod = "PUT"
         
@@ -160,18 +138,16 @@ class ParseClient {
         request.addValue(Constants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        request.httpBody = "{\"uniqueKey\": \"\(studentInformation.UniqueKey)\", \"firstName\": \"\(studentInformation.FirstName)\", \"lastName\": \"\(studentInformation.LastName)\",\"mapString\": \"\(studentInformation.MapString)\", \"mediaURL\": \"\(studentInformation.MediaURL)\",\"latitude\": \(studentInformation.Latitude), \"longitude\": \(studentInformation.Longitude)}".data(using: String.Encoding.utf8)
+        request.httpBody = "{\"uniqueKey\": \"\(studentInfo.UniqueKey)\", \"firstName\": \"\(studentInfo.FirstName)\", \"lastName\": \"\(studentInfo.LastName)\",\"mapString\": \"\(studentInfo.MapString)\", \"mediaURL\": \"\(studentInfo.MediaURL)\",\"latitude\": \(studentInfo.Latitude), \"longitude\": \(studentInfo.Longitude)}".data(using: String.Encoding.utf8)
         
         
-        /* 2. Make the request */
         let _ = performRequest(request: request) { (parsedResult, error) in
             
-            /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 completionHandlerPutLocation(error)
             } else {
                 
-                /* GUARD: Is the "updated at" key in our result? */
+                // GUARD: is the updatedAt key present?
                 guard let updatedAt = parsedResult?[GetStudentJSONResponseKeys.UpdatedAt] as? String else {
                     completionHandlerPutLocation(NSError(domain: "PUT StudentLocations parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse PUT Student Location"]))
                     return
@@ -186,8 +162,7 @@ class ParseClient {
         }
     }
     
-    
-    
+    // MARK: Perform request
     private func performRequest(request: NSMutableURLRequest,
                                 completionHandlerRequest: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void)
         -> URLSessionDataTask {
@@ -199,27 +174,22 @@ class ParseClient {
                     let userInfo = [NSLocalizedDescriptionKey : error]
                     completionHandlerRequest(nil, NSError(domain: "performRequest", code: 1, userInfo: userInfo))
                 }
-                
-                /* GUARD: Was there an error? */
+                // GUARD: was there an error?
                 guard (error == nil) else {
                     sendError("There was an error with your request: \(error!)")
                     return
                 }
-                
-                /* GUARD: Did we get a successful 2XX response? */
+                // GUARD: Did we get a successful response?
                 guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
                     let httpError = (response as? HTTPURLResponse)?.statusCode
                     sendError("Your request returned a status code : \(String(describing: httpError))")
                     return
                 }
-                
-                /* GUARD: Was there any data returned? */
+                // GUARD: Was data returned?
                 guard let data = data else {
                     sendError("No data was returned by the request!")
                     return
                 }
-                
-                print(NSString(data: data, encoding: String.Encoding.utf8.rawValue)!)
                 
                 self.convertDataWithCompletionHandler(data, completionHandlerConvertData: completionHandlerRequest)
             }

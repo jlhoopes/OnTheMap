@@ -18,10 +18,10 @@ class TextFieldDelegate : NSObject, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
+    /*
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.text = ""
-    }
+    }*/
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.resignFirstResponder()

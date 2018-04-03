@@ -10,21 +10,6 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-extension LoginViewController: FBSDKLoginButtonDelegate {
-    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
-        
-    }
-    
-    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
-        if error != nil {
-            performAlert("Fail to login using facebook")
-            return
-        }
-        
-        self.performFBLogin(result.token.tokenString)
-    }
-}
-
 class LoginViewController: UIViewController {
     @IBOutlet weak var loginStackView: UIStackView!
     @IBOutlet weak var emailTextField: UITextField!
@@ -42,20 +27,17 @@ class LoginViewController: UIViewController {
         let fbLoginButton = FBSDKLoginButton()
         
         loginStackView.addArrangedSubview(fbLoginButton)
-        
         emailTextField.delegate = TextFieldDelegate.sharedInstance
         passwordTextField.delegate = TextFieldDelegate.sharedInstance
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //subscribeToKeyboardNotifications()
         activityIndicator.stopAnimating()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //unsubscribeFromKeyboardNotifications()
         activityIndicator.stopAnimating()
     }
 
@@ -66,10 +48,10 @@ class LoginViewController: UIViewController {
     // MARK User Info
     private func getCurrentUserInfo() {
         
-        ParseClient.sharedInstance().getStudentInformation(completionHandlerLocation: {(studentInfo, error) in
+        ParseClient.sharedInstance().getStudentInfo(completionHandlerLocation: {(studentInfo, error) in
             
             if (error != nil) {
-                self.performAlert("Fail to get user info")
+                self.performAlert("Failed to get user")
             }
         })
     }
@@ -77,9 +59,7 @@ class LoginViewController: UIViewController {
     @IBAction func performLogin(_ sender: Any) {
         activityIndicator.startAnimating()
         if (emailTextField.text! == "" || passwordTextField.text! == "") {
-            let alert = UIAlertController(title: "Alert", message: "Please enter email and password.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            performAlert("Empty Email or Password")
             activityIndicator.stopAnimating()
             return
         }
@@ -90,8 +70,6 @@ class LoginViewController: UIViewController {
         UdacityClient.sharedInstance().performUdacityLogin(email, password, completionHandlerLogin: { (error) in
             
             if let error = error {
-                
-                //self.performAlert("Invalid login or password")
                 self.performAlert(error.localizedDescription)
             }
             else {
@@ -174,12 +152,29 @@ class LoginViewController: UIViewController {
         performUIUpdatesOnMain {
             self.activityIndicator.stopAnimating()
             // Login fail
-            let alert = UIAlertController(title: "Alert", message: messageString, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            let alert = UIAlertController(title: nil, message: messageString, preferredStyle: UIAlertControllerStyle.alert),
+                dismissAction = UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil)
+            alert.addAction(dismissAction)
             self.present(alert, animated: true, completion: nil)
             
         }
     }
 
+}
+
+//MARK Facebook Login Button
+extension LoginViewController: FBSDKLoginButtonDelegate {
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        
+    }
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        if error != nil {
+            performAlert("Facebook login failed")
+            return
+        }
+        
+        self.performFBLogin(result.token.tokenString)
+    }
 }
 

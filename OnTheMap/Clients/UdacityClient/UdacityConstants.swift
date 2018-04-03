@@ -10,13 +10,11 @@ extension UdacityClient {
     
     // MARK: Constants
     struct Constants {
-        
         static let AuthorizationURL = "https://www.udacity.com/api/session"
     }
     
     // MARK: Parameters
     struct UdacityParameterKeys {
-        
         static let Udacity = "udacity"
         static let Username = "username"
         static let Password = "password"
