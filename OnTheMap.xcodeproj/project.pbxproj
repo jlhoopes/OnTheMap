@@ -31,6 +31,10 @@
 		74EAF3FE206F0EC000F575E5 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF3FD206F0EC000F575E5 /* ParseConstants.swift */; };
 		74EAF401206F0F2A00F575E5 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF400206F0F2A00F575E5 /* StudentInformation.swift */; };
 		74EAF403206F0F6300F575E5 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF402206F0F6300F575E5 /* SharedData.swift */; };
+		74EAF4052072C99D00F575E5 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF4042072C99D00F575E5 /* MainTabBarController.swift */; };
+		74EAF4072072DDD300F575E5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF4062072DDD300F575E5 /* MapViewController.swift */; };
+		74EAF4092072E5EC00F575E5 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF4082072E5EC00F575E5 /* TableViewController.swift */; };
+		74EAF40C2072F19C00F575E5 /* OnTheMap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF40A2072F19C00F575E5 /* OnTheMap.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +79,10 @@
 		74EAF3FD206F0EC000F575E5 /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		74EAF400206F0F2A00F575E5 /* StudentInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		74EAF402206F0F6300F575E5 /* SharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
+		74EAF4042072C99D00F575E5 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		74EAF4062072DDD300F575E5 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		74EAF4082072E5EC00F575E5 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		74EAF40B2072F19C00F575E5 /* OnTheMap.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OnTheMap.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +152,7 @@
 				745B762D206DB91500960FC6 /* Assets.xcassets */,
 				745B762F206DB91500960FC6 /* LaunchScreen.storyboard */,
 				745B7632206DB91500960FC6 /* Info.plist */,
+				74EAF40A2072F19C00F575E5 /* OnTheMap.xcdatamodeld */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -180,6 +189,9 @@
 			isa = PBXGroup;
 			children = (
 				745B7628206DB91500960FC6 /* LoginViewController.swift */,
+				74EAF4042072C99D00F575E5 /* MainTabBarController.swift */,
+				74EAF4062072DDD300F575E5 /* MapViewController.swift */,
+				74EAF4082072E5EC00F575E5 /* TableViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -364,14 +376,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				74EAF3F5206F060E00F575E5 /* UdacityClient.swift in Sources */,
+				74EAF40C2072F19C00F575E5 /* OnTheMap.xcdatamodeld in Sources */,
 				74EAF3F7206F064900F575E5 /* UdacityConstants.swift in Sources */,
+				74EAF4052072C99D00F575E5 /* MainTabBarController.swift in Sources */,
 				74EAF3FC206F0E9A00F575E5 /* ParseClient.swift in Sources */,
 				745B7629206DB91500960FC6 /* LoginViewController.swift in Sources */,
 				745B7627206DB91500960FC6 /* AppDelegate.swift in Sources */,
 				74EAF3F9206F08F200F575E5 /* OTMBlackBox.swift in Sources */,
+				74EAF4072072DDD300F575E5 /* MapViewController.swift in Sources */,
 				74EAF401206F0F2A00F575E5 /* StudentInformation.swift in Sources */,
 				74EAF3F1206EFAE800F575E5 /* TextFieldDelegate.swift in Sources */,
 				74EAF403206F0F6300F575E5 /* SharedData.swift in Sources */,
+				74EAF4092072E5EC00F575E5 /* TableViewController.swift in Sources */,
 				74EAF3FE206F0EC000F575E5 /* ParseConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -700,6 +716,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		74EAF40A2072F19C00F575E5 /* OnTheMap.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				74EAF40B2072F19C00F575E5 /* OnTheMap.xcdatamodel */,
+			);
+			currentVersion = 74EAF40B2072F19C00F575E5 /* OnTheMap.xcdatamodel */;
+			path = OnTheMap.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 745B761B206DB91400960FC6 /* Project object */;
 }
