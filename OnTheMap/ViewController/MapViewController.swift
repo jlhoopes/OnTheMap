@@ -20,15 +20,15 @@ class MapViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getStudentInfo("-updatedAt")
+        getStudentsInfo("-updatedAt")
     }
     
-    func getStudentInfo(_ updateAtString: String) {
+    func getStudentsInfo(_ updateAtString: String) {
         
         activityIndicator.startAnimating()
         
         let parameters = [
-            ParseClient.MultipleStudentParameterKeys.Limit: "50",
+            ParseClient.MultipleStudentParameterKeys.Limit: "100",
             ParseClient.MultipleStudentParameterKeys.Order: updateAtString
         ]
         

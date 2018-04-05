@@ -25,11 +25,11 @@ class MainTabBarController: UITabBarController {
     @IBAction func performRefresh(_ sender: Any) {
         if (selectedIndex == 0) {
             let vc = selectedViewController as! MapViewController
-            vc.getStudentInfo("updatedAt")
+            vc.getStudentsInfo("-updatedAt")
         }
         else {
             let vc = selectedViewController as! TableViewController
-            vc.getStudentsInfo()
+            vc.getStudentsInfo("-updatedAt")
         }
     }
     
@@ -72,7 +72,7 @@ class MainTabBarController: UITabBarController {
                 })
             
             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil)
-            alert.view.tintColor = UIColor(rgb: 0x00ABE1)
+            //alert.view.tintColor = UIColor(rgb: 0x00ABE1)
             
             alert.addAction(overWriteAction)
             alert.addAction(cancelAction)

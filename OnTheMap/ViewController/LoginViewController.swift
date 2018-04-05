@@ -21,10 +21,11 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         // FB Login check issue logout
         let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
+        // Pre logout Facebook
         fbLoginManager.logOut()
         
-        
         let fbLoginButton = FBSDKLoginButton()
+        fbLoginButton.delegate = self
         
         loginStackView.addArrangedSubview(fbLoginButton)
         emailTextField.delegate = TextFieldDelegate.sharedInstance
@@ -45,7 +46,8 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    // MARK User Info
+    
+    // MARK: User Info
     private func getCurrentUserInfo() {
         
         ParseClient.sharedInstance().getStudentInfo(completionHandlerLocation: {(studentInfo, error) in
@@ -55,7 +57,8 @@ class LoginViewController: UIViewController {
             }
         })
     }
-    // MARK Login
+    
+    // MARK: Login
     @IBAction func performLogin(_ sender: Any) {
         activityIndicator.startAnimating()
         if (emailTextField.text! == "" || passwordTextField.text! == "") {
@@ -79,10 +82,10 @@ class LoginViewController: UIViewController {
             }
         })
     }
-    // MARK Facebook Login
-    func performFBLogin(_ fbToken: String) {
+    
+    // MARK: Facebook Login
+    private func performFBLogin(_ fbToken: String) {
         UdacityClient.sharedInstance().performFacebookLogin(fbToken, completionHandlerFBLogin: { (error) in
-            
             if (error == nil) {
                 // Get User Info
                 self.getCurrentUserInfo()
@@ -95,7 +98,7 @@ class LoginViewController: UIViewController {
         })
     }
 
-    // MARK complete login
+    // MARK: complete login
     private func completeLogin() {
         performUIUpdatesOnMain {
             self.activityIndicator.startAnimating()
@@ -103,51 +106,14 @@ class LoginViewController: UIViewController {
             self.present(controller, animated: true, completion: nil)
         }
     }
-    // MARK Signup functions
+    
+    // MARK: Signup functions
     @IBAction func performSignup(_ sender: Any) {
         let signup = UIApplication.shared
         signup.open(URL(string: "https://auth.udacity.com/sign-up?next=https%3A%2F%2Fclassroom.udacity.com%2Fauthenticated")!, options: [:])
     }
-    /*
-    // MARK Keyboard routines
-    @objc func keyboardWillShow(_ notification:Notification) {
-        if emailTextField.isFirstResponder {
-            view.frame.origin.y = 0 - getKeyboardHeight(notification) + 225
-        }
-        
-        if passwordTextField.isFirstResponder {
-            view.frame.origin.y = 0 - getKeyboardHeight(notification) + 225
-        }
-    }
     
-    @objc func keyboardWillHide(_ notification:Notification) {
-        if emailTextField.isFirstResponder {
-            view.frame.origin.y = 0
-        }
-        
-        if passwordTextField.isFirstResponder {
-            view.frame.origin.y = 0
-        }
-        
-    }
-    
-    func getKeyboardHeight(_ notification:Notification) -> CGFloat {
-        let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue // of CGRect
-        return keyboardSize.cgRectValue.height
-    }
-    
-    func subscribeToKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
-    }
-    
-    func unsubscribeFromKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
-    }
- */
-    //MARK Handle Errors
+    // MARK: Handle Errors
     func performAlert(_ messageString: String) {
         performUIUpdatesOnMain {
             self.activityIndicator.stopAnimating()
@@ -162,7 +128,7 @@ class LoginViewController: UIViewController {
 
 }
 
-//MARK Facebook Login Button
+// MARK: Facebook Login Button
 extension LoginViewController: FBSDKLoginButtonDelegate {
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         

@@ -170,33 +170,113 @@
                                                 <integer key="value" value="6"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="performAddLocation:" destination="vh6-Bq-dyO" eventType="touchUpInside" id="Co7-Vw-3Ja"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6dj-eP-Kd7" userLabel="Activity Indicator">
+                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="6dj-eP-Kd7" firstAttribute="centerX" secondItem="x1h-BR-rP4" secondAttribute="centerX" id="51a-Ho-iZr"/>
                             <constraint firstItem="4Zw-ZE-dfH" firstAttribute="trailing" secondItem="9es-73-7eg" secondAttribute="trailing" constant="20" id="5ff-dr-eBn"/>
                             <constraint firstItem="9es-73-7eg" firstAttribute="top" secondItem="IU1-am-iUK" secondAttribute="bottom" constant="52" id="BdZ-Vb-07C"/>
                             <constraint firstItem="9es-73-7eg" firstAttribute="leading" secondItem="4Zw-ZE-dfH" secondAttribute="leading" constant="20" id="QV4-tQ-EOL"/>
                             <constraint firstItem="IU1-am-iUK" firstAttribute="centerX" secondItem="x1h-BR-rP4" secondAttribute="centerX" id="RDC-4k-hRp"/>
                             <constraint firstItem="IU1-am-iUK" firstAttribute="top" secondItem="4Zw-ZE-dfH" secondAttribute="top" constant="50" id="RuB-75-Yr9"/>
+                            <constraint firstItem="6dj-eP-Kd7" firstAttribute="centerY" secondItem="x1h-BR-rP4" secondAttribute="centerY" id="cLq-uw-TN8"/>
                             <constraint firstItem="9es-73-7eg" firstAttribute="centerX" secondItem="x1h-BR-rP4" secondAttribute="centerX" id="w9e-H6-Q9c"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4Zw-ZE-dfH"/>
                     </view>
                     <navigationItem key="navigationItem" title="Add Location" id="UT6-tF-Kfd">
-                        <barButtonItem key="leftBarButtonItem" title="CANCEL" id="sRy-RJ-CsL">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="sRy-RJ-CsL">
                             <color key="tintColor" red="0.0" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="performCancel:" destination="vh6-Bq-dyO" id="DL5-f6-B8f"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="g67-PU-t1o"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="activityIndicator" destination="6dj-eP-Kd7" id="uH3-0D-3hG"/>
+                        <outlet property="locationTextField" destination="vnW-Nu-z1r" id="a8k-EI-aIT"/>
+                        <outlet property="websiteURLTextField" destination="gt1-dV-IOz" id="hXq-TS-Td7"/>
+                        <segue destination="RV4-SI-Al3" kind="show" identifier="confirmURLSegue" id="sGq-xN-Cu4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C2t-zt-ged" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="628" y="869"/>
+        </scene>
+        <!--Confirm Location-->
+        <scene sceneID="Gck-af-9zo">
+            <objects>
+                <viewController storyboardIdentifier="ConfirmLocationViewController" title="Add Location" id="RV4-SI-Al3" userLabel="Confirm Location" customClass="ConfirmLocationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="L5H-Mb-EBK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7pI-j1-DoO">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gga-VO-cx1" userLabel="Finish Button">
+                                <rect key="frame" x="37" y="602" width="300" height="45"/>
+                                <color key="backgroundColor" red="0.0" green="0.6705882353" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="cP8-cI-OR7"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="zaW-lo-SbB"/>
+                                </constraints>
+                                <state key="normal" title="FINISH">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="performSubmit:" destination="RV4-SI-Al3" eventType="touchUpInside" id="QOI-dJ-XNj"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Lfg-dv-GV5" userLabel="Activity Indicator">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="gvi-4h-3HF" firstAttribute="bottom" secondItem="gga-VO-cx1" secondAttribute="bottom" constant="20" id="3LV-Rd-BsY"/>
+                            <constraint firstItem="7pI-j1-DoO" firstAttribute="leading" secondItem="gvi-4h-3HF" secondAttribute="leading" id="SBA-j2-dy4"/>
+                            <constraint firstItem="7pI-j1-DoO" firstAttribute="top" secondItem="gvi-4h-3HF" secondAttribute="top" id="aqY-0T-GZ8"/>
+                            <constraint firstItem="gga-VO-cx1" firstAttribute="centerX" secondItem="L5H-Mb-EBK" secondAttribute="centerX" id="jXB-a7-6HD"/>
+                            <constraint firstItem="Lfg-dv-GV5" firstAttribute="centerY" secondItem="L5H-Mb-EBK" secondAttribute="centerY" id="lAX-UB-hrY"/>
+                            <constraint firstItem="gvi-4h-3HF" firstAttribute="bottom" secondItem="7pI-j1-DoO" secondAttribute="bottom" id="mHS-Sz-Wde"/>
+                            <constraint firstItem="gvi-4h-3HF" firstAttribute="trailing" secondItem="7pI-j1-DoO" secondAttribute="trailing" id="qQd-SW-XCf"/>
+                            <constraint firstItem="Lfg-dv-GV5" firstAttribute="centerX" secondItem="L5H-Mb-EBK" secondAttribute="centerX" id="zcs-eh-xas"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gvi-4h-3HF"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Confirm Location" id="jji-el-n23">
+                        <barButtonItem key="leftBarButtonItem" title="Back" image="icon_back-arrow" id="8K6-WM-oXK">
+                            <connections>
+                                <action selector="performCancel:" destination="RV4-SI-Al3" id="EJG-U4-B8t"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Lfg-dv-GV5" id="Qbt-LA-2mr"/>
+                        <outlet property="mapView" destination="7pI-j1-DoO" id="kst-CD-nWu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ciS-6K-OmH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1430" y="869"/>
         </scene>
         <!--Add Navigation-->
         <scene sceneID="aUa-hR-okk">
@@ -361,6 +441,7 @@
     </scenes>
     <resources>
         <image name="icon_addpin" width="24" height="24"/>
+        <image name="icon_back-arrow" width="24" height="24"/>
         <image name="icon_listview-deselected" width="75" height="50"/>
         <image name="icon_listview-selected" width="75" height="50"/>
         <image name="icon_mapview-deselected" width="75" height="50"/>

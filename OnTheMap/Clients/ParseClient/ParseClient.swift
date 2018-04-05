@@ -92,7 +92,7 @@ class ParseClient {
     
     // MARK: Post Student Location
     func postStudentInfo(studentInfo: StudentInfo, completionHandlerPostLocation: @escaping (_ error: NSError?) -> Void) {
-        
+        //print("posting")
         let request = NSMutableURLRequest(url: parseURLFromParameters(nil, withPathExtension: Methods.StudentLocation))
         
         request.httpMethod = "POST"
@@ -129,7 +129,7 @@ class ParseClient {
     
     // MARK: Put Student Location
     func putStudentInfo(studentInfo: StudentInfo, completionHandlerPutLocation: @escaping (_ error: NSError?) -> Void) {
-        
+        //print("putting")
         let request = NSMutableURLRequest(url: parseURLFromParameters(nil, withPathExtension: Methods.StudentLocation + "/\(studentInfo.ObjectID)"))
         
         request.httpMethod = "PUT"
@@ -170,7 +170,7 @@ class ParseClient {
             let task = session.dataTask(with: request as URLRequest) { data, response, error in
                 
                 func sendError(_ error: String) {
-                    print(error)
+                    //print(error)
                     let userInfo = [NSLocalizedDescriptionKey : error]
                     completionHandlerRequest(nil, NSError(domain: "performRequest", code: 1, userInfo: userInfo))
                 }
@@ -190,7 +190,6 @@ class ParseClient {
                     sendError("No data was returned by the request!")
                     return
                 }
-                
                 self.convertDataWithCompletionHandler(data, completionHandlerConvertData: completionHandlerRequest)
             }
             

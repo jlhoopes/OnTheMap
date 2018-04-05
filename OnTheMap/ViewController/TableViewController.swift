@@ -20,7 +20,7 @@ class TableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        getStudentsInfo()
+        getStudentsInfo("-updatedAt")
     }
     
     private func updateTable() {
@@ -29,11 +29,11 @@ class TableViewController: UITableViewController {
         }
     }
     
-    func getStudentsInfo() {
+    func getStudentsInfo(_ updateAtString: String) {
         
         let parameters = [
             ParseClient.MultipleStudentParameterKeys.Limit: "100",
-            ParseClient.MultipleStudentParameterKeys.Order: "updatedAt"
+            ParseClient.MultipleStudentParameterKeys.Order: updateAtString
         ]
         
         ParseClient.sharedInstance().getStudentsInfo(parameters: parameters as [String : AnyObject], completionHandlerLocations: { (studentsInfo, error) in
