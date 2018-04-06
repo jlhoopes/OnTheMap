@@ -34,7 +34,6 @@
 		74EAF4052072C99D00F575E5 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF4042072C99D00F575E5 /* MainTabBarController.swift */; };
 		74EAF4072072DDD300F575E5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF4062072DDD300F575E5 /* MapViewController.swift */; };
 		74EAF4092072E5EC00F575E5 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF4082072E5EC00F575E5 /* TableViewController.swift */; };
-		74EAF40C2072F19C00F575E5 /* OnTheMap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF40A2072F19C00F575E5 /* OnTheMap.xcdatamodeld */; };
 		74EAF40E2073F13800F575E5 /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF40D2073F13800F575E5 /* AddLocationViewController.swift */; };
 		74EAF4102074266C00F575E5 /* ConfirmLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EAF40F2074266C00F575E5 /* ConfirmLocationViewController.swift */; };
 /* End PBXBuildFile section */
@@ -84,7 +83,6 @@
 		74EAF4042072C99D00F575E5 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		74EAF4062072DDD300F575E5 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		74EAF4082072E5EC00F575E5 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		74EAF40B2072F19C00F575E5 /* OnTheMap.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OnTheMap.xcdatamodel; sourceTree = "<group>"; };
 		74EAF40D2073F13800F575E5 /* AddLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		74EAF40F2074266C00F575E5 /* ConfirmLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmLocationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,7 +154,6 @@
 				745B762D206DB91500960FC6 /* Assets.xcassets */,
 				745B762F206DB91500960FC6 /* LaunchScreen.storyboard */,
 				745B7632206DB91500960FC6 /* Info.plist */,
-				74EAF40A2072F19C00F575E5 /* OnTheMap.xcdatamodeld */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -382,7 +379,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				74EAF3F5206F060E00F575E5 /* UdacityClient.swift in Sources */,
-				74EAF40C2072F19C00F575E5 /* OnTheMap.xcdatamodeld in Sources */,
 				74EAF3F7206F064900F575E5 /* UdacityConstants.swift in Sources */,
 				74EAF4052072C99D00F575E5 /* MainTabBarController.swift in Sources */,
 				74EAF4102074266C00F575E5 /* ConfirmLocationViewController.swift in Sources */,
@@ -724,19 +720,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		74EAF40A2072F19C00F575E5 /* OnTheMap.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				74EAF40B2072F19C00F575E5 /* OnTheMap.xcdatamodel */,
-			);
-			currentVersion = 74EAF40B2072F19C00F575E5 /* OnTheMap.xcdatamodel */;
-			path = OnTheMap.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 745B761B206DB91400960FC6 /* Project object */;
 }

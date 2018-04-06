@@ -138,6 +138,9 @@ extension LoginViewController: FBSDKLoginButtonDelegate {
         if error != nil {
             performAlert("Facebook login failed")
             return
+        }	
+        if result.isCancelled {
+            return
         }
         
         self.performFBLogin(result.token.tokenString)
